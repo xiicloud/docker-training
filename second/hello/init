@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -e
+
+DB_HOST=${DB_HOST:-172.17.42.1}
+DB_USER=${DB_USER:-admin}
+DB_PASS=${DB_PASS:-csphere2015}
+
+if ! mysql -u${DB_USER} -p${DB_PASS} -h ${DB_HOST} -e "show databases;" | grep -w xc; then
+  mysql -u${DB_USER} -p${DB_PASS} -h ${DB_HOST} -e "create database if not exists xc;"
+  mysql -u${DB_USER} -p${DB_PASS} -h ${DB_HOST} xc -e "create table if not exists user(id int(4),name char(20));"
+  mysql -u${DB_USER} -p${DB_PASS} -h ${DB_HOST} xc -e "insert into user(id,name) values('1','csphere');"
+fi
+
+exec "$@"
