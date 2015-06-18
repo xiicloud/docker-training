@@ -1,0 +1,16 @@
+#!/bin/bash
+set -e
+
+SQUID_HOME=/usr/local/squid
+SQUID_CONF=$SQUID_HOME/etc/squid.conf
+
+if [ -e $SQUID_HOME/var/run/squid/squid.pid ]; then
+  rm -f $SQUID_HOME/var/run/squid/squid.pid
+fi
+
+# initialize the cache_dir
+if [ ! -d $SQUID_HOME/var/cache/squid/00 ]; then
+  $SQUID_HOME/sbin/squid -N -z
+fi
+
+exec $SQUID_HOME/sbin/squid -NYC -d 1

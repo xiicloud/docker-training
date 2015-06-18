@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e
+
+if [[ -e /scripts/firstrun ]]; then
+    # config tomcat user and pass
+	/scripts/create_tomcat_admin_user
+		rm /scripts/create_tomcat_admin_user
+		rm /scripts/firstrun
+fi
+
+exec ${CATALINA_HOME}/bin/catalina.sh run

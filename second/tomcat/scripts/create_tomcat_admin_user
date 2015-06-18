@@ -1,0 +1,25 @@
+#!/bin/bash
+
+set -e
+
+# Generate tomcat user password
+TOMCAT_USER=${TOMCAT_USER:-admin}
+TOMCAT_PASS=${TOMCAT_PASS:-csphere2015}
+
+echo "=> Creating and admin user with a ${_word} password in Tomcat"
+sed -i -r 's/<\/tomcat-users>//' ${CATALINA_HOME}/conf/tomcat-users.xml
+echo '<role rolename="manager-gui"/>' >> ${CATALINA_HOME}/conf/tomcat-users.xml
+echo '<role rolename="manager-script"/>' >> ${CATALINA_HOME}/conf/tomcat-users.xml
+echo '<role rolename="manager-jmx"/>' >> ${CATALINA_HOME}/conf/tomcat-users.xml
+echo '<role rolename="admin-gui"/>' >> ${CATALINA_HOME}/conf/tomcat-users.xml
+echo '<role rolename="admin-script"/>' >> ${CATALINA_HOME}/conf/tomcat-users.xml
+echo "<user username=\"${TOMCAT_USER}\" password=\"${TOMCAT_PASS}\" roles=\"manager-gui,manager-script,manager-jmx,admin-gui, admin-script\"/>" >> ${CATALINA_HOME}/conf/tomcat-users.xml
+echo '</tomcat-users>' >> ${CATALINA_HOME}/conf/tomcat-users.xml 
+echo "=> Done!"
+
+echo "========================================================================"
+echo "You can now configure to this Tomcat server using:"
+echo ""
+echo "    ${TOMCAT_USER}:${TOMCAT_PASS}"
+echo ""
+echo "========================================================================"
