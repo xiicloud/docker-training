@@ -1,0 +1,9 @@
+elk:
+  image: csphere/elk:1.6.0
+  environment：
+  ES_MIX_MEM=64m
+  ES_MAX_MEM=512m
+  ports:
+   - "5000:5000"
+   - "9200:9200"
+   - "5601:5601"
